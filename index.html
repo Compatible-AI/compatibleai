@@ -481,8 +481,21 @@
   <div class="hero-overlay bg-radial-glow" style="opacity:0.8"></div>
   <div class="waitlist-inner" style="position:relative">
     <h2>Be first. <span class="text-gradient">Your competitors won't wait.</span></h2>
+
+    <div class="cai-finder" style="margin-bottom:1.5rem">
+      <label class="fl" for="cai-q">Find your business on Google <span style="opacity:.6">— autofills the form below</span></label>
+      <div style="display:flex;gap:.5rem;margin-top:.4rem">
+        <input id="cai-q" type="text" autocomplete="off" placeholder="Acme Heating &amp; Air, Austin TX"
+          style="flex:1;padding:.7rem .9rem;border-radius:.6rem;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:inherit;font:inherit" />
+        <button type="button" id="cai-go" class="btn-primary" style="white-space:nowrap">Search</button>
+      </div>
+      <div id="cai-results" style="margin-top:.5rem"></div>
+    </div>
+
     <form class="qualify-form" id="waitlistForm" name="waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="waitlist" />
+      <input type="hidden" name="google_place_id" id="cai-place-id" />
+      <input type="hidden" name="website" id="cai-website" />
       <p hidden><label>Don't fill this out: <input name="bot-field" /></label></p>
 
       <div class="field">
@@ -555,6 +568,50 @@
 </footer>
 
 <script>
+  // --- Google Places autofill: search -> pick -> prefill the form ---
+  (function () {
+    function pick(r) {
+      document.getElementById('business_name').value = r.name || '';
+      if (r.phone) document.getElementById('phone').value = r.phone;
+      if (r.formatted_address) document.getElementById('service_area').value = r.formatted_address;
+      document.getElementById('cai-website').value = r.website || '';
+      document.getElementById('cai-place-id').value = r.place_id || '';
+      document.getElementById('cai-results').innerHTML =
+        '<p style="color:var(--muted);font-size:.85rem">Autofilled from “' + (r.name || '') + '”. Edit anything below, then submit.</p>';
+    }
+    async function run() {
+      var q = document.getElementById('cai-q').value.trim();
+      var box = document.getElementById('cai-results');
+      if (!q) return;
+      box.innerHTML = '<p style="color:var(--muted);font-size:.85rem">Searching…</p>';
+      try {
+        var res = await fetch('/.netlify/functions/places-lookup?q=' + encodeURIComponent(q));
+        var data = await res.json();
+        var hits = (data && data.results) || [];
+        if (!data.enabled || !hits.length) {
+          box.innerHTML = '<p style="color:var(--muted);font-size:.85rem">No match — just fill the form below.</p>';
+          return;
+        }
+        box.innerHTML = '';
+        hits.slice(0, 5).forEach(function (r) {
+          var el = document.createElement('button');
+          el.type = 'button';
+          el.style.cssText = 'display:block;width:100%;text-align:left;cursor:pointer;padding:.6rem .8rem;margin:.35rem 0;border-radius:.6rem;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:inherit;font:inherit';
+          el.innerHTML = '<strong>' + (r.name || '') + '</strong><br><span style="color:var(--muted);font-size:.8rem">' +
+            (r.formatted_address || '') + (r.rating ? (' · ★ ' + r.rating) : '') + '</span>';
+          el.onclick = function () { pick(r); };
+          box.appendChild(el);
+        });
+      } catch (e) {
+        box.innerHTML = '<p style="color:var(--muted);font-size:.85rem">Lookup unavailable — fill the form below.</p>';
+      }
+    }
+    document.getElementById('cai-go').addEventListener('click', run);
+    document.getElementById('cai-q').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); run(); }
+    });
+  })();
+
   document.getElementById('waitlistForm').addEventListener('submit', function(e) {
     e.preventDefault();
     var form = e.target;
