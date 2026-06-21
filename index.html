@@ -482,16 +482,6 @@
   <div class="waitlist-inner" style="position:relative">
     <h2>Be first. <span class="text-gradient">Your competitors won't wait.</span></h2>
 
-    <div class="cai-finder" style="margin-bottom:1.5rem">
-      <label class="fl" for="cai-q">Find your business on Google <span style="opacity:.6">— autofills the form below</span></label>
-      <div style="display:flex;gap:.5rem;margin-top:.4rem">
-        <input id="cai-q" type="text" autocomplete="off" placeholder="Acme Heating &amp; Air, Austin TX"
-          style="flex:1;padding:.7rem .9rem;border-radius:.6rem;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:inherit;font:inherit" />
-        <button type="button" id="cai-go" class="btn-primary" style="white-space:nowrap">Search</button>
-      </div>
-      <div id="cai-results" style="margin-top:.5rem"></div>
-    </div>
-
     <form class="qualify-form" id="waitlistForm" name="waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="waitlist" />
       <input type="hidden" name="google_place_id" id="cai-place-id" />
@@ -500,7 +490,11 @@
 
       <div class="field">
         <label class="fl" for="business_name">Business name</label>
-        <input id="business_name" name="business_name" type="text" required placeholder="Acme Heating &amp; Air" />
+        <div style="position:relative">
+          <input id="business_name" name="business_name" type="text" required autocomplete="off"
+            placeholder="Start typing — we'll find you on Google" />
+          <div id="cai-ac" style="position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:30;display:none;background:#0b1020;border:1px solid rgba(255,255,255,.16);border-radius:.6rem;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.5)"></div>
+        </div>
       </div>
       <div class="field">
         <label class="fl" for="contact_name">Your name</label>
@@ -568,48 +562,63 @@
 </footer>
 
 <script>
-  // --- Google Places autofill: search -> pick -> prefill the form ---
+  // --- Google Places autocomplete: type the business name -> pick -> prefill ---
   (function () {
-    function pick(r) {
-      document.getElementById('business_name').value = r.name || '';
-      if (r.phone) document.getElementById('phone').value = r.phone;
-      if (r.formatted_address) document.getElementById('service_area').value = r.formatted_address;
-      document.getElementById('cai-website').value = r.website || '';
-      document.getElementById('cai-place-id').value = r.place_id || '';
-      document.getElementById('cai-results').innerHTML =
-        '<p style="color:var(--muted);font-size:.85rem">Autofilled from “' + (r.name || '') + '”. Edit anything below, then submit.</p>';
+    var input = document.getElementById('business_name');
+    var menu = document.getElementById('cai-ac');
+    var session = null, timer = null;
+
+    function newSession() {
+      session = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+        : ('s-' + Date.now() + '-' + Math.random().toString(16).slice(2));
     }
-    async function run() {
-      var q = document.getElementById('cai-q').value.trim();
-      var box = document.getElementById('cai-results');
-      if (!q) return;
-      box.innerHTML = '<p style="color:var(--muted);font-size:.85rem">Searching…</p>';
+    function close() { menu.style.display = 'none'; menu.innerHTML = ''; }
+
+    async function choose(placeId) {
+      close();
       try {
-        var res = await fetch('/.netlify/functions/places-lookup?q=' + encodeURIComponent(q));
-        var data = await res.json();
-        var hits = (data && data.results) || [];
-        if (!data.enabled || !hits.length) {
-          box.innerHTML = '<p style="color:var(--muted);font-size:.85rem">No match — just fill the form below.</p>';
-          return;
+        var res = await fetch('/.netlify/functions/places?place_id=' + encodeURIComponent(placeId) +
+          '&session=' + encodeURIComponent(session || ''));
+        var r = (await res.json()).result;
+        if (r) {
+          input.value = r.name || input.value;
+          if (r.phone) document.getElementById('phone').value = r.phone;
+          if (r.formatted_address) document.getElementById('service_area').value = r.formatted_address;
+          document.getElementById('cai-website').value = r.website || '';
+          document.getElementById('cai-place-id').value = r.place_id || '';
         }
-        box.innerHTML = '';
-        hits.slice(0, 5).forEach(function (r) {
-          var el = document.createElement('button');
-          el.type = 'button';
-          el.style.cssText = 'display:block;width:100%;text-align:left;cursor:pointer;padding:.6rem .8rem;margin:.35rem 0;border-radius:.6rem;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:inherit;font:inherit';
-          el.innerHTML = '<strong>' + (r.name || '') + '</strong><br><span style="color:var(--muted);font-size:.8rem">' +
-            (r.formatted_address || '') + (r.rating ? (' · ★ ' + r.rating) : '') + '</span>';
-          el.onclick = function () { pick(r); };
-          box.appendChild(el);
-        });
-      } catch (e) {
-        box.innerHTML = '<p style="color:var(--muted);font-size:.85rem">Lookup unavailable — fill the form below.</p>';
-      }
+      } catch (e) { /* keep whatever they typed */ }
+      session = null; // ends the billing session; next search starts a new one
     }
-    document.getElementById('cai-go').addEventListener('click', run);
-    document.getElementById('cai-q').addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') { e.preventDefault(); run(); }
-    });
+
+    async function suggest() {
+      var q = input.value.trim();
+      if (q.length < 3) { close(); return; }
+      if (!session) newSession();
+      try {
+        var res = await fetch('/.netlify/functions/places?q=' + encodeURIComponent(q) +
+          '&session=' + encodeURIComponent(session));
+        var data = await res.json();
+        var preds = (data && data.predictions) || [];
+        if (!data.enabled || !preds.length) { close(); return; }
+        menu.innerHTML = '';
+        preds.slice(0, 5).forEach(function (p) {
+          var el = document.createElement('div');
+          el.style.cssText = 'cursor:pointer;padding:.6rem .8rem;border-bottom:1px solid rgba(255,255,255,.08);color:inherit';
+          el.onmouseenter = function () { el.style.background = 'rgba(255,255,255,.07)'; };
+          el.onmouseleave = function () { el.style.background = 'transparent'; };
+          el.innerHTML = '<strong>' + (p.primary || '') + '</strong>' +
+            (p.secondary ? '<br><span style="color:var(--muted);font-size:.8rem">' + p.secondary + '</span>' : '');
+          // mousedown (not click) so it fires before the input's blur closes the menu
+          el.addEventListener('mousedown', function (ev) { ev.preventDefault(); choose(p.place_id); });
+          menu.appendChild(el);
+        });
+        menu.style.display = 'block';
+      } catch (e) { close(); }
+    }
+
+    input.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(suggest, 250); });
+    input.addEventListener('blur', function () { setTimeout(close, 150); });
   })();
 
   document.getElementById('waitlistForm').addEventListener('submit', function(e) {
