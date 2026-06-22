@@ -257,7 +257,18 @@
   function humanize(t){ return (t||"").replace(/_/g," ").replace(/\b\w/g, function(c){return c.toUpperCase();}); }
   biz.addEventListener("input", function(){
     var q=biz.value.trim();
-    state.place_id=null; $("#s1next").disabled=true;
+    state.place_id=null;
+    // Let people continue by typing their name even if they don't pick a Google
+    // match (business not listed, or Places unavailable) — the backend handles a
+    // missing place_id by routing to review.
+    if(q.length>=2){
+      state.name=q;
+      $("#catLabel").classList.remove("hide");
+      $("#cat").classList.remove("hide");
+      $("#s1next").disabled=false;
+    } else {
+      $("#s1next").disabled=true;
+    }
     if(timer) clearTimeout(timer);
     if(q.length<3){ menu.classList.add("hide"); return; }
     timer=setTimeout(function(){ runAutocomplete(q); }, 250);
