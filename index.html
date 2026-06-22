@@ -347,7 +347,7 @@
       <span class="logo-dot"></span>
       <span>Compatible AI</span>
     </a>
-    <a href="#waitlist" class="nav-link">Waitlist →</a>
+    <a href="/onboarding.html" class="nav-link">Sign up →</a>
   </div>
 </header>
 
@@ -359,13 +359,13 @@
   <div class="container" style="position:relative">
     <div class="badge">
       <span class="badge-dot"></span>
-      Early access now open
+      Free while we onboard the first 10 businesses
     </div>
     <h1>Your business, <span class="text-gradient">bookable inside AI.</span></h1>
     <p class="hero-desc">We connect independent service businesses to AI assistants like Claude, ChatGPT, and Google AI so customers can discover and book you without ever leaving the conversation.</p>
     <div class="hero-cta">
-      <a href="#waitlist" class="btn-primary">
-        Join the Early Access Waitlist
+      <a href="/onboarding.html" class="btn-primary">
+        Sign up free
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </a>
     </div>
@@ -523,52 +523,14 @@
   <div class="waitlist-inner" style="position:relative">
     <h2>Be first. <span class="text-gradient">Your competitors won't wait.</span></h2>
 
-    <form class="qualify-form" id="waitlistForm" name="waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-      <input type="hidden" name="form-name" value="waitlist" />
-      <input type="hidden" name="google_place_id" id="cai-place-id" />
-      <input type="hidden" name="website" id="cai-website" />
-      <p hidden><label>Don't fill this out: <input name="bot-field" /></label></p>
-
-      <div class="field">
-        <label class="fl" for="business_name">Business name</label>
-        <div style="position:relative">
-          <input id="business_name" name="business_name" type="text" required autocomplete="off"
-            placeholder="Start typing — we'll find you on Google" />
-          <div id="cai-ac" style="position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:30;display:none;background:#0b1020;border:1px solid rgba(255,255,255,.16);border-radius:.6rem;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.5)"></div>
-        </div>
-      </div>
-      <div class="field">
-        <label class="fl" for="contact_name">Your name</label>
-        <input id="contact_name" name="contact_name" type="text" required placeholder="Jordan Reyes" />
-      </div>
-      <div class="field">
-        <label class="fl" for="email">Email</label>
-        <input id="email" name="email" type="email" required placeholder="you@business.com" />
-      </div>
-      <div class="field">
-        <label class="fl" for="phone">Phone <span style="opacity:.6">(optional)</span></label>
-        <input id="phone" name="phone" type="tel" placeholder="(512) 555-0123" />
-      </div>
-      <div class="field">
-        <label class="fl" for="vertical">What kind of business?</label>
-        <input id="vertical" name="vertical" type="text" required
-          placeholder="e.g. plumber, yoga studio, dog groomer, attorney" />
-      </div>
-      <div class="field">
-        <label class="fl" for="service_area">City / service area</label>
-        <input id="service_area" name="service_area" type="text" required placeholder="Austin, TX" />
-      </div>
-      <div class="field">
-        <label class="fl" for="scheduling_software">Scheduling software you use</label>
-        <input id="scheduling_software" name="scheduling_software" type="text" required placeholder="e.g. Jobber, Housecall Pro, ServiceTitan, or none" />
-      </div>
-      <button class="btn-submit" type="submit" id="submitBtn">Request early access</button>
-    </form>
-    <div class="qualify-success" id="waitlistSuccess" hidden>
-      <strong>You're on the list.</strong>
-      <p style="margin-top:.5rem;color:var(--muted);font-size:.9rem">We'll reach out to get you set up — businesses already on Jobber go live the fastest.</p>
+    <p class="waitlist-note" style="margin-top:1rem;font-size:1rem">Get discovered and booked inside Claude — free while we onboard our first 10 businesses. Setup takes about two minutes: find your business, connect your scheduler, done.</p>
+    <div style="margin-top:2rem">
+      <a href="/onboarding.html" class="btn-primary">
+        Sign up free
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
     </div>
-    <p class="waitlist-note">We're onboarding 10 businesses per city before opening to the broader market.</p>
+    <p class="waitlist-note" style="margin-top:1.5rem">No credit card. We only ask permission to create appointments — never your customer list, never payments.</p>
   </div>
 </section>
 
@@ -621,6 +583,7 @@
   (function () {
     var input = document.getElementById('business_name');
     var menu = document.getElementById('cai-ac');
+    if (!input || !menu) return;  // form moved to the /onboarding.html wizard
     var session = null, timer = null;
 
     function newSession() {
@@ -676,7 +639,8 @@
     input.addEventListener('blur', function () { setTimeout(close, 150); });
   })();
 
-  document.getElementById('waitlistForm').addEventListener('submit', function(e) {
+  var waitlistForm = document.getElementById('waitlistForm');
+  if (waitlistForm) waitlistForm.addEventListener('submit', function(e) {
     e.preventDefault();
     var form = e.target;
     var btn = document.getElementById('submitBtn');
