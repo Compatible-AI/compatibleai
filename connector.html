@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Compatible AI — Connector Documentation</title>
+<meta name="description" content="How the Compatible AI connector makes local service businesses discoverable and bookable inside Claude. Tools, authentication, data handling, and privacy." />
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:oklch(0.13 0.01 270); --fg:oklch(0.98 0 0); --card:oklch(0.17 0.012 270);
+    --muted:oklch(0.7 0.02 270); --border:oklch(1 0 0 / 8%);
+    --electric:oklch(0.68 0.22 255); --violet:oklch(0.62 0.24 295); --radius:0.75rem;
+  }
+  body{background:var(--bg);color:var(--fg);font-family:ui-sans-serif,system-ui,-apple-system,"Inter",sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
+  a{color:var(--electric)}
+  .wrap{max-width:48rem;margin:0 auto;padding:2.5rem 1.5rem 5rem}
+  .logo{display:flex;align-items:center;gap:.5rem;font-weight:600;text-decoration:none;color:var(--fg);margin-bottom:2rem}
+  .logo .dot{width:9px;height:9px;border-radius:50%;background:var(--electric);box-shadow:0 0 12px var(--electric)}
+  .eyebrow{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--electric);font-weight:700}
+  h1{font-size:2rem;letter-spacing:-.02em;line-height:1.15;margin:.4rem 0 .6rem}
+  h2{font-size:1.25rem;letter-spacing:-.01em;margin:2.2rem 0 .6rem;padding-top:1.4rem;border-top:1px solid var(--border)}
+  h3{font-size:1rem;margin:1.2rem 0 .3rem}
+  p,li{color:oklch(0.86 0.02 270)}
+  p{margin:.6rem 0}
+  ul{margin:.5rem 0 .5rem 1.2rem}
+  li{margin:.3rem 0}
+  code{background:var(--card);border:1px solid var(--border);border-radius:.35rem;padding:.05rem .35rem;font-size:.85em;color:oklch(0.85 0.08 255)}
+  .lead{font-size:1.1rem;color:var(--muted)}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.25rem;margin:.8rem 0}
+  .card h3{margin-top:0}
+  .tag{display:inline-block;font-size:.7rem;font-weight:600;border-radius:999px;padding:.12rem .5rem;border:1px solid var(--border);color:var(--muted);margin-left:.4rem;vertical-align:middle}
+  .tag.read{color:oklch(0.72 0.17 155);border-color:color-mix(in oklab,oklch(0.72 0.17 155) 40%,transparent)}
+  .tag.write{color:oklch(0.78 0.16 75);border-color:color-mix(in oklab,oklch(0.78 0.16 75) 40%,transparent)}
+  .muted{color:var(--muted)}
+  footer{border-top:1px solid var(--border);margin-top:3rem;padding-top:1.5rem;font-size:.85rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="logo" href="/"><span class="dot"></span><span>Compatible AI</span></a>
+
+  <div class="eyebrow">Connector documentation</div>
+  <h1>The Compatible AI connector</h1>
+  <p class="lead">Compatible AI makes independent local service businesses — HVAC, salons, vets, auto shops, and more — discoverable and bookable directly inside Claude. One connector routes a customer's request to the right business, checks real availability, and submits the booking into that business's own scheduling system.</p>
+
+  <h2>What it does</h2>
+  <p>The connector exposes a small set of tools for finding and booking local service businesses. It is scheduling-only — no payments are processed through it.</p>
+
+  <div class="card">
+    <h3>search_businesses <span class="tag read">read-only</span></h3>
+    <p>Discover service businesses by location and category (e.g. "plumber in Austin"). Returns business name, type, location, and an availability signal. No personal or sensitive data.</p>
+  </div>
+  <div class="card">
+    <h3>get_availability <span class="tag read">read-only</span></h3>
+    <p>Returns open appointment slots for a given business and time window, read from that business's connected scheduler.</p>
+  </div>
+  <div class="card">
+    <h3>request_appointment <span class="tag write">write</span></h3>
+    <p>Submits a booking to the business's scheduling system. Minimal data only — the customer's name and a contact method. No medical, financial, or payment data.</p>
+  </div>
+
+  <h2>How a booking works</h2>
+  <ul>
+    <li>A customer asks Claude to find or book a local service.</li>
+    <li>The connector returns matching businesses and their real open slots.</li>
+    <li>On confirmation, the appointment is created in the business's own scheduler (Jobber, Square Appointments, Google Calendar, Microsoft/Outlook, and others) — or, for businesses without a connected tool, routed to the owner to confirm.</li>
+  </ul>
+
+  <h2>Authentication</h2>
+  <p>The connector uses <strong>OAuth 2.0</strong> (authorization code with PKCE, dynamic client registration). A consumer authorizes the connector to search and book on their behalf; each business separately authorizes Compatible AI to create appointments in its scheduler — and nothing more.</p>
+
+  <h2>Data handling</h2>
+  <ul>
+    <li><strong>Scheduling metadata only.</strong> The connector handles business listings, availability, and minimal booking details (name + contact).</li>
+    <li><strong>No PHI.</strong> No diagnosis codes, treatment notes, insurance, or medical records pass through the connector.</li>
+    <li><strong>No payments.</strong> No financial transactions are processed.</li>
+    <li><strong>Least privilege.</strong> Business connections request only the permission to read availability and create appointments.</li>
+    <li>The connector does not access Claude's memory, chat history, or user files.</li>
+  </ul>
+
+  <h2>Privacy &amp; support</h2>
+  <p>Privacy policy: <a href="/privacy">compatiblecommerce.com/privacy</a>. Questions or issues: <a href="mailto:hello@thiesinglabs.com">hello@thiesinglabs.com</a>.</p>
+
+  <footer>
+    Compatible AI · <a href="/">compatiblecommerce.com</a> · a multi-tenant MCP connector for local service booking inside AI assistants.
+  </footer>
+</div>
+</body>
+</html>

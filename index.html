@@ -334,6 +334,54 @@
     .footer-email { font-size: 0.875rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
     .footer-email:hover { color: var(--fg); }
 
+    /* What we offer */
+    .offer-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 2.5rem; }
+    @media (min-width: 640px) { .offer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1000px) { .offer-grid { grid-template-columns: repeat(4, 1fr); } }
+    .offer-bubble {
+      border: 1px solid var(--border); background: var(--card);
+      border-radius: 1rem; padding: 1.5rem; display: flex; flex-direction: column; gap: 0.7rem;
+    }
+    .offer-ico {
+      width: 2.75rem; height: 2.75rem; border-radius: 0.7rem; display: flex;
+      align-items: center; justify-content: center;
+      background: color-mix(in oklab, var(--electric) 14%, transparent); color: var(--electric);
+    }
+    .offer-bubble h3 { font-size: 1.05rem; letter-spacing: -0.01em; }
+    .offer-bubble p { font-size: 0.9rem; color: var(--muted); line-height: 1.55; }
+
+    /* See it in action — demos */
+    .demo-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-top: 2.5rem; }
+    @media (min-width: 760px) { .demo-grid { grid-template-columns: 1fr 1fr; } }
+    .demo-card {
+      border: 1px solid var(--border); background: oklch(0.15 0.012 270 / 60%);
+      border-radius: 1rem; padding: 1.25rem;
+    }
+    .demo-label { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.9rem; }
+    .demo-label .dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--electric); flex-shrink: 0; }
+    .demo-frame { border: 1px solid var(--border); border-radius: 0.8rem; background: var(--bg); padding: 0.9rem; }
+    .chat-row { display: flex; margin: 0.4rem 0; }
+    .chat-row.user { justify-content: flex-end; }
+    .bubble { max-width: 88%; padding: 0.5rem 0.75rem; border-radius: 0.8rem; font-size: 0.82rem; line-height: 1.45; }
+    .bubble.user { background: var(--electric); color: oklch(0.13 0.01 270); border-bottom-right-radius: 0.2rem; }
+    .bubble.ai { background: var(--card); border: 1px solid var(--border); color: var(--fg); border-bottom-left-radius: 0.2rem; }
+    .mini-biz { border: 1px solid var(--border); border-radius: 0.7rem; overflow: hidden; background: var(--card); margin-top: 0.5rem; }
+    .mini-biz .hd { height: 2.4rem; background: linear-gradient(135deg, var(--electric), var(--violet)); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .mini-biz .bd { padding: 0.6rem 0.7rem; }
+    .mini-biz .nm { font-weight: 600; font-size: 0.85rem; }
+    .mini-biz .mt { font-size: 0.72rem; color: var(--muted); margin-top: 0.15rem; }
+    .mini-biz .bk { margin-top: 0.5rem; background: var(--electric); color: oklch(0.13 0.01 270); border-radius: 999px; text-align: center; padding: 0.32rem; font-size: 0.78rem; font-weight: 600; }
+    .demo-email .eh { font-size: 0.72rem; color: var(--muted); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 0.6rem; }
+    .demo-email .stat { display: flex; gap: 1.25rem; align-items: baseline; margin: 0.3rem 0 0.7rem; }
+    .demo-email .stat .n { font-size: 1.5rem; font-weight: 700; }
+    .demo-email .stat .g { color: oklch(0.72 0.17 155); }
+    .demo-email .line { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--muted); padding: 0.18rem 0; }
+    .demo-connect { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .conn-chip { display: flex; align-items: center; gap: 0.4rem; border: 1px solid var(--border); border-radius: 0.6rem; padding: 0.4rem 0.65rem; font-size: 0.8rem; background: var(--card); }
+    .conn-chip .lg { width: 1.3rem; height: 1.3rem; border-radius: 0.35rem; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .conn-chip.ok { border-color: color-mix(in oklab, oklch(0.72 0.17 155) 45%, transparent); }
+    .conn-chip .chk { color: oklch(0.72 0.17 155); font-weight: 700; }
+
     /* SVG icons */
     svg { display: block; }
   </style>
@@ -400,6 +448,107 @@
         </div>
         <h3>You have no path to fix it alone</h3>
         <p>MCP, agent commerce, third-party connectors. The stack is moving fast and isn't built for you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What we offer -->
+<section class="padded" style="padding-top:0">
+  <div class="container-sm">
+    <div class="section-header">
+      <div class="eyebrow">What we offer</div>
+      <h2>One connection. Four ways it pays off.</h2>
+    </div>
+    <div class="offer-grid">
+      <div class="offer-bubble">
+        <div class="offer-ico">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 2v4"/><path d="M16 2v4"/><path d="m9 16 2 2 4-4"/></svg>
+        </div>
+        <h3>Booking through Claude</h3>
+        <p>Customers book you right inside the AI conversation — the appointment drops straight into the scheduler you already use.</p>
+      </div>
+      <div class="offer-bubble">
+        <div class="offer-ico">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 9.6 8.6 4 11l5.6 2.4L12 19l2.4-5.6L20 11l-5.6-2.4z"/></svg>
+        </div>
+        <h3>Discoverable by AI</h3>
+        <p>When someone asks Claude, ChatGPT, or Google AI for a service you offer, your business shows up — with real availability.</p>
+      </div>
+      <div class="offer-bubble">
+        <div class="offer-ico">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+        </div>
+        <h3>Marketing your AI connection</h3>
+        <p>We help you promote that you're now bookable in AI — and show you the bookings it actually drives.</p>
+      </div>
+      <div class="offer-bubble">
+        <div class="offer-ico">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7H6a4 4 0 0 0 0 8h3"/><path d="M15 7h3a4 4 0 0 1 0 8h-3"/><line x1="8" x2="16" y1="11" y2="11"/></svg>
+        </div>
+        <h3>Works with your tools</h3>
+        <p>Sign in once to the scheduler you already run on — Jobber, Square, Google Calendar, Microsoft, and more. No new software to learn.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- See it in action -->
+<section class="padded" style="padding-top:0">
+  <div class="container-sm">
+    <div class="section-header">
+      <div class="eyebrow">See it in action</div>
+      <h2>How each piece looks.</h2>
+    </div>
+    <div class="demo-grid">
+      <!-- Booking -->
+      <div class="demo-card">
+        <div class="demo-label"><span class="dot"></span>Booking through Claude</div>
+        <div class="demo-frame">
+          <div class="chat-row user"><div class="bubble user">Book me an AC tune-up Tuesday afternoon</div></div>
+          <div class="chat-row"><div class="bubble ai">Austin Air &amp; Heat has 2:00 PM open Tuesday:</div></div>
+          <div class="mini-biz">
+            <div class="hd">❄️</div>
+            <div class="bd"><div class="nm">Austin Air &amp; Heat</div><div class="mt">★ 4.8 · HVAC · 2.1 mi · Instant booking</div><div class="bk">Book 2:00 PM</div></div>
+          </div>
+        </div>
+      </div>
+      <!-- Discoverable -->
+      <div class="demo-card">
+        <div class="demo-label"><span class="dot"></span>Discoverable by AI</div>
+        <div class="demo-frame">
+          <div class="chat-row user"><div class="bubble user">Find me a plumber near downtown Austin</div></div>
+          <div class="chat-row"><div class="bubble ai">Here are 3 plumbers available today. Lone Star Plumbing can come this afternoon and books instantly:</div></div>
+          <div class="mini-biz">
+            <div class="hd">💧</div>
+            <div class="bd"><div class="nm">Lone Star Plumbing</div><div class="mt">★ 4.7 · Plumbing · 1.4 mi · Today 3:30 PM</div></div>
+          </div>
+        </div>
+      </div>
+      <!-- Marketing -->
+      <div class="demo-card">
+        <div class="demo-label"><span class="dot"></span>Marketing your AI connection</div>
+        <div class="demo-frame demo-email">
+          <div class="eh">From <b style="color:var(--fg)">Compatible AI</b> · <b style="color:var(--fg)">Your week: 3 bookings from Claude</b></div>
+          <div class="stat"><div class="n">3 <span style="font-size:.72rem;color:var(--muted);font-weight:400">bookings</span></div><div class="n g">~$1,210 <span style="font-size:.72rem;color:var(--muted);font-weight:400">est. value</span></div></div>
+          <div class="line">❄️ AC tune-up · Tue 2:00 PM · booked via Claude</div>
+          <div class="line">🔧 No-cool diagnostic · Wed 9:30 AM · booked via Claude</div>
+          <div class="line">❄️ Filter + inspection · Fri 4:00 PM · booked via Claude</div>
+        </div>
+      </div>
+      <!-- Connect -->
+      <div class="demo-card">
+        <div class="demo-label"><span class="dot"></span>Works with your tools</div>
+        <div class="demo-frame">
+          <p style="font-size:.8rem;color:var(--muted);margin-bottom:.7rem">Sign in once — bookings flow into the tool you already use.</p>
+          <div class="demo-connect">
+            <div class="conn-chip ok"><span class="lg" style="background:#1a936f">J</span>Jobber <span class="chk">✓</span></div>
+            <div class="conn-chip"><span class="lg" style="background:#111">S</span>Square</div>
+            <div class="conn-chip"><span class="lg" style="background:#4285f4">G</span>Google</div>
+            <div class="conn-chip"><span class="lg" style="background:#2b88d8">M</span>Microsoft</div>
+            <div class="conn-chip"><span class="lg" style="background:#7b5cff">A</span>Acuity</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -484,9 +633,17 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
           Childcare
         </div>
+        <div class="vertical-card">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M20 9h2M20 14h2M2 9h2M2 14h2"/></svg>
+          Tech &amp; IT services
+        </div>
+        <div class="vertical-card">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9h.01M9 12h.01M9 15h.01"/></svg>
+          Real estate &amp; insurance
+        </div>
       </div>
       <div class="cat-marquee"><div class="cat-track" id="catTrack"></div></div>
-      <p class="cat-caption">…and 50+ specific service types, from plumbers to personal trainers.</p>
+      <p class="cat-caption">…and 70+ specific service types, from plumbers to IT consultants.</p>
     </div>
   </div>
 </section>
@@ -582,7 +739,11 @@
       </div>
       <p class="footer-tagline">Your business, bookable inside AI.</p>
     </div>
-    <a href="mailto:therien@thiesinglabs.com" class="footer-email">therien@thiesinglabs.com</a>
+    <div style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap">
+      <a href="/connector.html" class="footer-email">Connector docs</a>
+      <a href="/privacy" class="footer-email">Privacy</a>
+      <a href="mailto:therien@thiesinglabs.com" class="footer-email">therien@thiesinglabs.com</a>
+    </div>
   </div>
 </footer>
 
@@ -603,7 +764,11 @@
       "Attorneys", "Financial Advisors", "CPAs & Tax", "Consultants", "Coaches", "Mortgage Brokers",
       "Tutors", "Music Lessons", "Art Classes", "Language Tutors", "Test Prep", "Cooking Classes",
       "Photographers", "Videographers", "Event Planners", "DJs", "Florists",
-      "Childcare"
+      "Childcare",
+      "Real Estate Agents", "Insurance Agencies", "Mortgage Brokers",
+      "Recruiters", "Staffing Agencies", "B2B Consultants",
+      "Managed IT", "IT Help Desks", "Computer Repair", "Cybersecurity Consultants",
+      "Software Consultants", "Smart Home Installers"
     ];
     function pill(label) {
       var el = document.createElement('span');
