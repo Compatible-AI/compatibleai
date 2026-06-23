@@ -451,11 +451,7 @@
     .cd-confirm .s { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
 
     /* ── Full-width "connect your scheduler" banner ── */
-    .oauth-banner { width: 100vw; margin-left: calc(50% - 50vw); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: oklch(0.15 0.012 270 / 45%); padding: 3rem 0; margin-top: 5rem; }
-    .oauth-head { text-align: center; margin: 0 auto 1.6rem; max-width: 40rem; padding: 0 1.5rem; }
-    .oauth-head h3 { font-size: clamp(1.3rem, 3vw, 1.75rem); font-weight: 600; letter-spacing: -0.02em; }
-    .oauth-head p { font-size: 0.92rem; color: var(--muted); margin-top: 0.4rem; }
-    .oauth-track { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; align-items: center; padding: 0 1.5rem; max-width: 60rem; margin: 0 auto; }
+    .oauth-track { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
     .ob-chip { display: flex; align-items: center; gap: 0.5rem; border: 1px solid var(--border); border-radius: 0.7rem; padding: 0.55rem 0.85rem; background: var(--card); font-size: 0.88rem; font-weight: 500; white-space: nowrap; }
     .ob-chip .lg { width: 1.5rem; height: 1.5rem; border-radius: 0.4rem; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: #fff; flex-shrink: 0; }
     .ob-chip.live { border-color: color-mix(in oklab, oklch(0.72 0.17 155) 38%, transparent); }
@@ -629,14 +625,15 @@
   </div>
 </section>
 
-<!-- Connect-your-scheduler banner (full width) -->
-<section class="oauth-banner">
-  <div class="oauth-head">
-    <div class="eyebrow">Works with your tools</div>
-    <h3>Connect the scheduler you already use.</h3>
-    <p>Sign in once — bookings flow straight into the tool you run your business on. New integrations added every week.</p>
-  </div>
-  <div class="oauth-track">
+<!-- Connect your scheduler -->
+<section class="padded" style="padding-top:0">
+  <div class="container-sm">
+    <div class="section-header">
+      <div class="eyebrow">Works with your tools</div>
+      <h2>Connect the scheduler you already use.</h2>
+      <p class="sub-lead">Sign in once — bookings flow straight into the tool you run your business on. New integrations added every week.</p>
+    </div>
+    <div class="oauth-track">
     <div class="ob-chip live"><span class="lg" style="background:#1a8348">J</span>Jobber <span class="chk">✓</span></div>
     <div class="ob-chip live"><span class="lg" style="background:#006aff">S</span>Square <span class="chk">✓</span></div>
     <div class="ob-chip live"><span class="lg" style="background:#111">A</span>Acuity <span class="chk">✓</span></div>
@@ -647,6 +644,7 @@
     <div class="ob-chip soon"><span class="lg" style="background:#292929">C</span>Cal.com <span class="soon-t">soon</span></div>
     <div class="ob-chip soon"><span class="lg" style="background:#3f51b5">Cr</span>Cronofy <span class="soon-t">soon</span></div>
     <div class="ob-chip soon"><span class="lg" style="background:#5a4fe3">N</span>Nylas <span class="soon-t">soon</span></div>
+    </div>
   </div>
 </section>
 
