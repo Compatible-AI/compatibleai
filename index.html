@@ -396,6 +396,73 @@
     .conn-chip.ok { border-color: color-mix(in oklab, oklch(0.72 0.17 155) 45%, transparent); }
     .conn-chip .chk { color: oklch(0.72 0.17 155); font-weight: 700; }
 
+    /* ── Big consolidated connector demo ── */
+    .sub-lead { max-width: 38rem; margin: 0.6rem 0 0; font-size: 0.95rem; color: var(--muted); line-height: 1.55; }
+    .conn-demo { border: 1px solid var(--border); background: oklch(0.15 0.012 270 / 60%); border-radius: 1rem; padding: 1.25rem; max-width: 34rem; margin: 2.5rem auto 0; }
+    .cd-chat { margin-bottom: 0.7rem; }
+    .cd-stage { position: relative; height: 380px; border: 1px solid var(--border); border-radius: 0.8rem; background: var(--bg); overflow: hidden; }
+    .cd-stage .scene { position: absolute; inset: 0; padding: 0.85rem; opacity: 0; transform: translateY(10px); transition: opacity 0.6s ease, transform 0.6s ease; pointer-events: none; }
+    .cd-stage .scene.show { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .cd-stage .scene { transition: none; } }
+    .cd-map { height: 172px; border-radius: 0.6rem; border: 1px solid var(--border); overflow: hidden; background: oklch(0.17 0.012 270); }
+    .cd-map .leaflet-container { height: 100%; width: 100%; background: oklch(0.17 0.012 270); font: inherit; }
+    .biz-pin { width: 1.7rem; height: 1.7rem; border-radius: 50%; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; box-shadow: 0 2px 8px rgba(0,0,0,0.45); }
+    .leaflet-marker-icon.biz-pin-wrap { background: none; border: none; }
+    .cd-map .leaflet-control-attribution { font-size: 8px; opacity: 0.4; background: transparent !important; }
+    .cd-map .leaflet-control-attribution a { color: var(--muted); }
+    /* guided cursor */
+    .cd-cursor { position: absolute; z-index: 1200; left: 50%; top: 46%; width: 22px; height: 22px; pointer-events: none; transition: left 0.9s cubic-bezier(0.4,0,0.2,1), top 0.9s cubic-bezier(0.4,0,0.2,1), transform 0.12s ease; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.55)); }
+    .cd-cursor svg { width: 100%; height: 100%; display: block; }
+    .cd-cursor.press { transform: scale(0.82); }
+    .cd-cursor .ripple { position: absolute; left: 2px; top: 2px; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--electric); opacity: 0; transform: scale(0.4); }
+    .cd-cursor.click .ripple { animation: cd-ripple 0.5s ease-out; }
+    @keyframes cd-ripple { 0% { opacity: 0.85; transform: scale(0.4); } 100% { opacity: 0; transform: scale(2.4); } }
+    @media (prefers-reduced-motion: reduce) { .cd-cursor { display: none; } }
+    .cd-list { margin-top: 0.55rem; display: flex; flex-direction: column; gap: 0.4rem; }
+    .cd-row { display: flex; align-items: center; gap: 0.6rem; border: 1px solid var(--border); border-radius: 0.6rem; padding: 0.45rem 0.6rem; background: var(--card); transition: border-color 0.3s; }
+    .cd-row.sel { border-color: var(--electric); }
+    .cd-row .ic { width: 1.7rem; height: 1.7rem; border-radius: 0.45rem; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; background: var(--c, #2d6cdf); flex-shrink: 0; }
+    .cd-row .nm { font-weight: 600; font-size: 0.8rem; }
+    .cd-row .sub { font-size: 0.68rem; color: var(--muted); }
+    .cd-row .dist { margin-left: auto; font-size: 0.7rem; color: var(--muted); }
+    .oc-head { height: 4.5rem; border-radius: 0.6rem; display: flex; align-items: center; justify-content: center; font-size: 1.9rem; }
+    .oc-nm { font-weight: 700; font-size: 1.05rem; margin-top: 0.6rem; }
+    .oc-meta { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
+    .oc-actions { display: flex; gap: 0.4rem; margin-top: 0.8rem; }
+    .oc-actions .b { flex: 1; text-align: center; border-radius: 999px; padding: 0.5rem; font-size: 0.8rem; font-weight: 600; background: var(--electric); color: oklch(0.13 0.01 270); }
+    .oc-actions .g { border: 1px solid var(--border); border-radius: 999px; padding: 0.5rem 0.8rem; font-size: 0.8rem; color: var(--muted); }
+    .oc-info { font-size: 0.72rem; color: var(--muted); margin-top: 0.8rem; padding-top: 0.7rem; border-top: 1px solid var(--border); }
+    .slots-h { font-size: 0.82rem; font-weight: 600; margin-bottom: 0.55rem; }
+    .slot-day { margin-bottom: 0.55rem; }
+    .slot-day .d { font-size: 0.7rem; color: var(--muted); margin-bottom: 0.32rem; }
+    .slot-row { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .slot-chip { border: 1px solid var(--electric); color: var(--electric); border-radius: 0.5rem; padding: 0.32rem 0.62rem; font-size: 0.74rem; transition: background 0.3s, color 0.3s; }
+    .slot-chip.sel { background: var(--electric); color: oklch(0.13 0.01 270); }
+    .cd-form { display: flex; gap: 0.4rem; margin-top: 0.7rem; }
+    .cd-form .fi { flex: 1; border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.42rem 0.55rem; font-size: 0.74rem; background: var(--card); min-height: 1.95rem; }
+    .cd-form .fi .ph { color: var(--muted); }
+    .cd-form .fi .val { color: var(--fg); }
+    .cd-form .fi.filled .ph, .cd-form .fi.typing .ph { display: none; }
+    .cd-form .fi.typing .val::after { content: ""; border-right: 2px solid var(--electric); margin-left: 1px; animation: ld-caret 0.8s step-end infinite; }
+    .cd-go { margin-top: 0.6rem; text-align: center; background: var(--electric); color: oklch(0.13 0.01 270); border-radius: 999px; padding: 0.5rem; font-size: 0.8rem; font-weight: 600; }
+    .cd-confirm { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; gap: 0.55rem; }
+    .cd-confirm .big { width: 3rem; height: 3rem; border-radius: 50%; background: oklch(0.72 0.17 155 / 0.18); border: 1px solid color-mix(in oklab, oklch(0.72 0.17 155) 45%, transparent); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+    .cd-confirm .t { font-weight: 700; font-size: 1.02rem; }
+    .cd-confirm .s { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── Full-width "connect your scheduler" banner ── */
+    .oauth-banner { width: 100vw; margin-left: calc(50% - 50vw); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: oklch(0.15 0.012 270 / 45%); padding: 3rem 0; margin-top: 5rem; }
+    .oauth-head { text-align: center; margin: 0 auto 1.6rem; max-width: 40rem; padding: 0 1.5rem; }
+    .oauth-head h3 { font-size: clamp(1.3rem, 3vw, 1.75rem); font-weight: 600; letter-spacing: -0.02em; }
+    .oauth-head p { font-size: 0.92rem; color: var(--muted); margin-top: 0.4rem; }
+    .oauth-track { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; align-items: center; padding: 0 1.5rem; max-width: 60rem; margin: 0 auto; }
+    .ob-chip { display: flex; align-items: center; gap: 0.5rem; border: 1px solid var(--border); border-radius: 0.7rem; padding: 0.55rem 0.85rem; background: var(--card); font-size: 0.88rem; font-weight: 500; white-space: nowrap; }
+    .ob-chip .lg { width: 1.5rem; height: 1.5rem; border-radius: 0.4rem; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .ob-chip.live { border-color: color-mix(in oklab, oklch(0.72 0.17 155) 38%, transparent); }
+    .ob-chip.live .chk { color: oklch(0.72 0.17 155); font-weight: 700; }
+    .ob-chip.soon { opacity: 0.5; }
+    .ob-chip .soon-t { font-size: 0.6rem; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 0.05rem 0.4rem; }
+
     /* SVG icons */
     svg { display: block; }
   </style>
@@ -512,94 +579,74 @@
   <div class="container-sm">
     <div class="section-header">
       <div class="eyebrow">See it in action</div>
-      <h2>How each piece looks.</h2>
+      <h2>A real booking, start to finish.</h2>
+      <p class="sub-lead">Exactly what a customer sees inside Claude — they discover you, pick a time, and book, without ever leaving the chat.</p>
     </div>
-    <div class="demo-grid">
-      <!-- Booking — animated live demo -->
-      <div class="demo-card live-demo" id="liveDemo">
-        <div class="demo-label"><span class="dot"></span>Booking through Claude <span class="demo-tag">· live demo</span></div>
-        <div class="demo-frame">
-          <div class="chat-row user step" data-step="1"><div class="bubble user"><span id="ld-type"></span><span class="type-caret" id="ld-caret">&nbsp;</span></div></div>
-          <div class="chat-row step" data-step="2"><div class="tool-chip"><span class="spin"></span><span id="ld-tool">searching businesses…</span></div></div>
-          <div class="chat-row step" data-step="3"><div class="bubble ai">Austin Air &amp; Heat has 2:00 PM open Tuesday:</div></div>
-          <div class="mini-biz step" data-step="4" id="ld-card">
-            <div class="hd">❄️</div>
-            <div class="bd"><div class="nm">Austin Air &amp; Heat</div><div class="mt">★ 4.8 · HVAC · 2.1 mi · Instant booking</div><div class="bk" id="ld-bk">Book 2:00 PM</div></div>
-          </div>
-          <div class="chat-row step" data-step="5"><div class="bubble ai">✅ Booked — it's on their calendar. You'll get a confirmation.</div></div>
-        </div>
+
+    <div class="conn-demo" id="connectorDemo">
+      <div class="demo-label"><span class="dot"></span>Booking through Claude <span class="demo-tag">· live demo</span></div>
+      <div class="cd-chat">
+        <div class="chat-row user"><div class="bubble user">Find me an HVAC tech in Austin this week</div></div>
+        <div class="chat-row"><div class="tool-chip"><span class="spin"></span><span id="cd-tool">searching businesses…</span></div></div>
       </div>
-      <!-- Discoverable -->
-      <div class="demo-card">
-        <div class="demo-label"><span class="dot"></span>Discoverable by AI</div>
-        <div class="demo-frame">
-          <div class="chat-row user"><div class="bubble user">Find me a plumber near downtown Austin</div></div>
-          <div class="chat-row"><div class="bubble ai">Here are 3 plumbers available today. Lone Star Plumbing can come this afternoon and books instantly:</div></div>
-          <div class="mini-biz">
-            <div class="hd">💧</div>
-            <div class="bd"><div class="nm">Lone Star Plumbing</div><div class="mt">★ 4.7 · Plumbing · 1.4 mi · Today 3:30 PM</div></div>
+      <div class="cd-stage">
+        <!-- Scene 1: discovery — map + distance-sorted list -->
+        <div class="scene show" data-scene="1">
+          <div class="cd-map" id="cd-map"></div>
+          <div class="cd-list">
+            <div class="cd-row r1"><span class="ic" style="--c:#2d6cdf">❄️</span><div><div class="nm">Austin Air &amp; Heat</div><div class="sub">HVAC · Austin</div></div><span class="dist">2.1 mi</span></div>
+            <div class="cd-row"><span class="ic" style="--c:#0a9396">💧</span><div><div class="nm">Lone Star Plumbing</div><div class="sub">Plumbing · Round Rock</div></div><span class="dist">3.4 mi</span></div>
+            <div class="cd-row"><span class="ic" style="--c:#ca6702">🏠</span><div><div class="nm">Hill Country Roofing</div><div class="sub">Roofing · Dripping Springs</div></div><span class="dist">7 mi</span></div>
           </div>
         </div>
-      </div>
-      <!-- Marketing -->
-      <div class="demo-card">
-        <div class="demo-label"><span class="dot"></span>Marketing your AI connection</div>
-        <div class="demo-frame demo-email">
-          <div class="eh">From <b style="color:var(--fg)">Compatible AI</b> · <b style="color:var(--fg)">Your week: 3 bookings from Claude</b></div>
-          <div class="stat"><div class="n">3 <span style="font-size:.72rem;color:var(--muted);font-weight:400">bookings</span></div><div class="n g">~$1,210 <span style="font-size:.72rem;color:var(--muted);font-weight:400">est. value</span></div></div>
-          <div class="line">❄️ AC tune-up · Tue 2:00 PM · booked via Claude</div>
-          <div class="line">🔧 No-cool diagnostic · Wed 9:30 AM · booked via Claude</div>
-          <div class="line">❄️ Filter + inspection · Fri 4:00 PM · booked via Claude</div>
+        <!-- Scene 2: business detail (Option C card) -->
+        <div class="scene" data-scene="2">
+          <div class="oc-head" style="background:#2d6cdf">❄️</div>
+          <div class="oc-nm">Austin Air &amp; Heat</div>
+          <div class="oc-meta">★ 4.8 · HVAC · 2.1 mi · Instant booking</div>
+          <div class="oc-actions"><span class="b">Book</span><span class="g">Directions</span><span class="g">Call</span></div>
+          <div class="oc-info">⏱ Mon–Sat · 8am–6pm &nbsp;·&nbsp; 🛡 Licensed &amp; insured</div>
         </div>
-      </div>
-      <!-- Connect -->
-      <div class="demo-card">
-        <div class="demo-label"><span class="dot"></span>Works with your tools</div>
-        <div class="demo-frame">
-          <p style="font-size:.8rem;color:var(--muted);margin-bottom:.7rem">Sign in once — bookings flow into the tool you already use.</p>
-          <div class="demo-connect">
-            <div class="conn-chip ok"><span class="lg" style="background:#1a936f">J</span>Jobber <span class="chk">✓</span></div>
-            <div class="conn-chip"><span class="lg" style="background:#111">S</span>Square</div>
-            <div class="conn-chip"><span class="lg" style="background:#4285f4">G</span>Google</div>
-            <div class="conn-chip"><span class="lg" style="background:#2b88d8">M</span>Microsoft</div>
-            <div class="conn-chip"><span class="lg" style="background:#7b5cff">A</span>Acuity</div>
+        <!-- Scene 3: availability + contact -->
+        <div class="scene" data-scene="3">
+          <div class="slots-h">Pick a time</div>
+          <div class="slot-day"><div class="d">Tuesday · Jun 23</div><div class="slot-row"><span class="slot-chip">9:00 AM</span><span class="slot-chip">11:00 AM</span><span class="slot-chip pick">2:00 PM</span></div></div>
+          <div class="slot-day"><div class="d">Wednesday · Jun 24</div><div class="slot-row"><span class="slot-chip">8:00 AM</span><span class="slot-chip">1:00 PM</span><span class="slot-chip">4:00 PM</span></div></div>
+          <div class="cd-form">
+            <div class="fi"><span class="val" id="cd-name"></span><span class="ph">Your name</span></div>
+            <div class="fi"><span class="val" id="cd-phone"></span><span class="ph">Phone or email</span></div>
           </div>
+          <div class="cd-go" id="cd-go">Confirm booking</div>
         </div>
+        <!-- Scene 4: confirmation -->
+        <div class="scene" data-scene="4">
+          <div class="cd-confirm"><div class="big">✅</div><div class="t">Booked — Tue 2:00 PM</div><div class="s">It's on Austin Air &amp; Heat's calendar.<br>Landed right in their booking platform.</div></div>
+        </div>
+        <!-- guided cursor (animated) -->
+        <div class="cd-cursor" id="cd-cursor"><svg viewBox="0 0 24 24"><path d="M5 3l14 7-6 2-2 6-6-15z" fill="#fff" stroke="#1a1a1a" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="ripple"></span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- How it works -->
-<section class="padded" style="padding-top:0">
-  <div class="container-sm">
-    <div class="section-header">
-      <div class="eyebrow">How it works</div>
-      <h2>From signup to bookable inside AI.</h2>
-    </div>
-    <div class="grid-3">
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-num">01</div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--muted)"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
-        </div>
-        <p>You sign up and tell us how you run your business.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-num">02</div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--muted)"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6" y1="6" y2="6"/><line x1="6" x2="6" y1="18" y2="18"/></svg>
-        </div>
-        <p>We build and host your AI commerce connection.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-num">03</div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--muted)"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <p>Customers find and book you inside Claude, ChatGPT, and Google AI.</p>
-      </div>
-    </div>
+<!-- Connect-your-scheduler banner (full width) -->
+<section class="oauth-banner">
+  <div class="oauth-head">
+    <div class="eyebrow">Works with your tools</div>
+    <h3>Connect the scheduler you already use.</h3>
+    <p>Sign in once — bookings flow straight into the tool you run your business on. New integrations added every week.</p>
+  </div>
+  <div class="oauth-track">
+    <div class="ob-chip live"><span class="lg" style="background:#1a8348">J</span>Jobber <span class="chk">✓</span></div>
+    <div class="ob-chip live"><span class="lg" style="background:#006aff">S</span>Square <span class="chk">✓</span></div>
+    <div class="ob-chip live"><span class="lg" style="background:#111">A</span>Acuity <span class="chk">✓</span></div>
+    <div class="ob-chip live"><span class="lg" style="background:#0078d4">M</span>Microsoft <span class="chk">✓</span></div>
+    <div class="ob-chip live"><span class="lg" style="background:#4285f4">G</span>Google Calendar <span class="chk">✓</span></div>
+    <div class="ob-chip soon"><span class="lg" style="background:#1d8bf1">H</span>Housecall Pro <span class="soon-t">soon</span></div>
+    <div class="ob-chip soon"><span class="lg" style="background:#0f9d58">8</span>ServiceM8 <span class="soon-t">soon</span></div>
+    <div class="ob-chip soon"><span class="lg" style="background:#292929">C</span>Cal.com <span class="soon-t">soon</span></div>
+    <div class="ob-chip soon"><span class="lg" style="background:#3f51b5">Cr</span>Cronofy <span class="soon-t">soon</span></div>
+    <div class="ob-chip soon"><span class="lg" style="background:#5a4fe3">N</span>Nylas <span class="soon-t">soon</span></div>
   </div>
 </section>
 
@@ -660,6 +707,39 @@
       </div>
       <div class="cat-marquee"><div class="cat-track" id="catTrack"></div></div>
       <p class="cat-caption">…and 70+ specific service types, from plumbers to IT consultants.</p>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="padded" style="padding-top:0">
+  <div class="container-sm">
+    <div class="section-header">
+      <div class="eyebrow">How it works</div>
+      <h2>From signup to bookable inside AI.</h2>
+    </div>
+    <div class="grid-3">
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-num">01</div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--muted)"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
+        </div>
+        <p>Sign up and connect the scheduler you already use — or we'll set you up.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-num">02</div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--muted)"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <p>Your services and availability go live inside Claude — ChatGPT and Google as they open.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-num">03</div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--muted)"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <p>Customers discover and book you; appointments land in your tools, with a weekly recap by email.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -798,56 +878,128 @@
     }
   })();
 
-  // --- Live demo: an auto-playing, looping simulation of a Claude booking ---
+  // --- Live demo: auto-playing replica of the in-Claude booking flow, with a
+  //     real map (Leaflet + CARTO, same as the connector), a guided cursor that
+  //     clicks, and typed-in contact details ---
   (function () {
-    var demo = document.getElementById('liveDemo');
+    var demo = document.getElementById('connectorDemo');
     if (!demo) return;
-    var typeEl = document.getElementById('ld-type');
-    var caret = document.getElementById('ld-caret');
-    var toolEl = document.getElementById('ld-tool');
-    var bk = document.getElementById('ld-bk');
-    var card = document.getElementById('ld-card');
-    var MSG = "Book me an AC tune-up in Austin, Tuesday afternoon";
+    var stage = demo.querySelector('.cd-stage');
+    var toolEl = document.getElementById('cd-tool');
+    var scenes = demo.querySelectorAll('.scene');
+    var cursor = document.getElementById('cd-cursor');
+    var row = demo.querySelector('.cd-row.r1');
+    var pick = demo.querySelector('.slot-chip.pick');
+    var nameEl = document.getElementById('cd-name');
+    var phoneEl = document.getElementById('cd-phone');
     var timers = [];
     function at(ms, fn) { timers.push(setTimeout(fn, ms)); }
-    function show(n) { var el = demo.querySelector('.step[data-step="' + n + '"]'); if (el) el.classList.add('show'); }
+    function scene(n) { scenes.forEach(function (s) { s.classList.toggle('show', s.getAttribute('data-scene') === String(n)); }); }
+    function tool(t) { if (toolEl) toolEl.textContent = t; }
+
+    // Real map — matches the connector (Leaflet 1.9.4 + CARTO dark tiles + divIcon pins)
+    var BIZ = [
+      { lat: 30.2500, lng: -97.7669, c: '#2d6cdf', g: '❄️' },
+      { lat: 30.5083, lng: -97.6789, c: '#0a9396', g: '💧' },
+      { lat: 30.1902, lng: -98.0867, c: '#ca6702', g: '🏠' }
+    ];
+    var YOU = { lat: 30.30, lng: -97.78 };
+    var mapDone = false;
+    function ensureLeaflet(cb) {
+      if (window.L) return cb();
+      if (!document.getElementById('ld-leaflet-css')) {
+        var l = document.createElement('link'); l.id = 'ld-leaflet-css'; l.rel = 'stylesheet';
+        l.href = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css';
+        document.head.appendChild(l);
+      }
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';
+      s.onload = cb; s.onerror = function () {};
+      document.head.appendChild(s);
+    }
+    function initMap() {
+      if (mapDone || !window.L) return;
+      var el = document.getElementById('cd-map'); if (!el) return;
+      mapDone = true;
+      var map = L.map(el, { zoomControl: false, scrollWheelZoom: false, dragging: false, doubleClickZoom: false, boxZoom: false, keyboard: false, inertia: false, tap: false });
+      map.attributionControl.setPrefix(false);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { subdomains: 'abcd', detectRetina: true, maxZoom: 19, attribution: '&copy; OpenStreetMap, CARTO' }).addTo(map);
+      var pts = [];
+      BIZ.forEach(function (b) {
+        var icon = L.divIcon({ className: 'biz-pin-wrap', html: '<div class="biz-pin" style="background:' + b.c + '">' + b.g + '</div>', iconSize: [27, 27], iconAnchor: [13, 13] });
+        L.marker([b.lat, b.lng], { icon: icon, keyboard: false }).addTo(map);
+        pts.push([b.lat, b.lng]);
+      });
+      L.circleMarker([YOU.lat, YOU.lng], { radius: 6, color: '#fff', weight: 2, fillColor: '#2d8cff', fillOpacity: 1 }).addTo(map);
+      pts.push([YOU.lat, YOU.lng]);
+      map.fitBounds(pts, { padding: [26, 26], maxZoom: 11 });
+      setTimeout(function () { map.invalidateSize(); }, 80);
+    }
+    ensureLeaflet(initMap);
+
+    // Guided cursor
+    function moveTo(el) {
+      if (!el || !cursor || !stage) return;
+      var sr = stage.getBoundingClientRect(), tr = el.getBoundingClientRect();
+      cursor.style.left = (tr.left - sr.left + tr.width / 2 - 4) + 'px';
+      cursor.style.top = (tr.top - sr.top + tr.height / 2 - 2) + 'px';
+    }
+    function clickFx() {
+      if (!cursor) return;
+      cursor.classList.add('press', 'click');
+      at(130, function () { cursor.classList.remove('press'); });
+      at(540, function () { cursor.classList.remove('click'); });
+    }
+    function typeInto(fi, val, done) {
+      if (!fi) { done && done(); return; }
+      var valEl = fi.querySelector('.val');
+      fi.classList.add('typing'); valEl.textContent = '';
+      var i = 0;
+      (function step() {
+        if (i <= val.length) { valEl.textContent = val.slice(0, i); i++; at(58, step); }
+        else { fi.classList.remove('typing'); fi.classList.add('filled'); done && done(); }
+      })();
+    }
 
     if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      demo.querySelectorAll('.step').forEach(function (s) { s.classList.add('show'); });
-      typeEl.textContent = MSG; if (caret) caret.style.display = 'none';
-      bk.textContent = 'Booked ✓'; card.classList.add('booked');
-      return;
+      scene(1); if (row) row.classList.add('sel'); return;
     }
 
-    function typeMsg(i) {
-      if (i <= MSG.length) { typeEl.textContent = MSG.slice(0, i); at(40, function () { typeMsg(i + 1); }); }
-      else { if (caret) caret.style.display = 'none'; sequence(); }
-    }
-    function sequence() {
-      at(350,  function () { show(2); });
-      at(1150, function () { toolEl.textContent = 'checking availability…'; });
-      at(2000, function () { show(3); });
-      at(2600, function () { show(4); });
-      at(3500, function () { bk.textContent = 'Booking…'; });
-      at(4100, function () { bk.textContent = 'Booked ✓'; card.classList.add('booked'); });
-      at(4500, function () { show(5); });
-      at(8000, play); // loop
+    function reset() {
+      timers.forEach(clearTimeout); timers = [];
+      if (row) row.classList.remove('sel');
+      if (pick) pick.classList.remove('sel');
+      [nameEl, phoneEl].forEach(function (v) { if (v) { v.textContent = ''; var fi = v.closest('.fi'); if (fi) fi.classList.remove('filled', 'typing'); } });
+      tool('searching businesses…');
+      if (cursor) { cursor.style.left = '50%'; cursor.style.top = '46%'; }
+      scene(1);
     }
     function play() {
-      timers.forEach(clearTimeout); timers = [];
-      demo.querySelectorAll('.step').forEach(function (s) { s.classList.remove('show'); });
-      typeEl.textContent = ''; if (caret) caret.style.display = '';
-      toolEl.textContent = 'searching businesses…';
-      bk.textContent = 'Book 2:00 PM'; card.classList.remove('booked');
-      show(1); typeMsg(1);
+      reset();
+      at(1000,  function () { moveTo(row); });
+      at(2100,  function () { clickFx(); if (row) row.classList.add('sel'); });
+      at(2900,  function () { tool('Austin Air & Heat'); scene(2); });
+      at(3900,  function () { moveTo(demo.querySelector('.oc-actions .b')); });
+      at(5000,  function () { clickFx(); });
+      at(5600,  function () { tool('checking availability…'); scene(3); });
+      at(6700,  function () { moveTo(pick); });
+      at(7700,  function () { clickFx(); if (pick) pick.classList.add('sel'); });
+      at(8400,  function () { moveTo(nameEl && nameEl.closest('.fi')); });
+      at(9100,  function () { typeInto(nameEl && nameEl.closest('.fi'), 'Jordan Reyes'); });
+      at(10400, function () { moveTo(phoneEl && phoneEl.closest('.fi')); });
+      at(11100, function () { typeInto(phoneEl && phoneEl.closest('.fi'), '(512) 555-0142'); });
+      at(12700, function () { moveTo(document.getElementById('cd-go')); });
+      at(13600, function () { clickFx(); tool('booking…'); });
+      at(14300, function () { tool('booked ✓'); scene(4); });
+      at(18500, play); // loop
     }
 
     var started = false;
-    function start() { if (!started) { started = true; play(); } }
+    function start() { if (!started) { started = true; initMap(); play(); } }
     if ('IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) { if (e.isIntersecting) start(); });
-      }, { threshold: 0.3 });
+      }, { threshold: 0.25 });
       io.observe(demo);
     }
     setTimeout(start, 1500); // fallback so it always plays
