@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sign up — Compatible AI</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:oklch(0.13 0.01 270); --fg:oklch(0.98 0 0); --card:oklch(0.17 0.012 270);
+    --muted:oklch(0.7 0.02 270); --border:oklch(1 0 0 / 10%);
+    --electric:oklch(0.68 0.22 255); --violet:oklch(0.62 0.24 295);
+    --green:oklch(0.72 0.17 155); --amber:oklch(0.78 0.16 75);
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--fg);font-family:ui-sans-serif,system-ui,-apple-system,"Inter",sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;line-height:1.5}
+  .bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(to right,oklch(1 0 0/.04) 1px,transparent 1px),linear-gradient(to bottom,oklch(1 0 0/.04) 1px,transparent 1px);background-size:48px 48px}
+  .bg-glow{position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(ellipse at top,color-mix(in oklab,var(--electric) 16%,transparent),transparent 55%),radial-gradient(ellipse at bottom,color-mix(in oklab,var(--violet) 12%,transparent),transparent 55%)}
+  .wrap{position:relative;z-index:1;max-width:42rem;margin:0 auto;padding:1.5rem 1.25rem 5rem}
+
+  .brand{display:flex;align-items:center;gap:.5rem;font-weight:600;letter-spacing:-.02em;padding:.5rem 0 1.25rem;text-decoration:none;color:var(--fg)}
+  .brand-dot{width:10px;height:10px;border-radius:50%;background:var(--electric);box-shadow:0 0 12px var(--electric)}
+  .crumb{margin-left:auto;font-size:.72rem;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:.2rem .65rem}
+
+  .steps{display:flex;align-items:center;gap:.5rem;margin-bottom:1.75rem}
+  .pip{flex:1;display:flex;flex-direction:column;gap:.45rem}
+  .pip .bar{height:4px;border-radius:999px;background:var(--border)}
+  .pip.active .bar{background:var(--electric)}
+  .pip.done .bar{background:var(--green)}
+  .pip .lbl{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .pip.active .lbl{color:var(--fg)}
+
+  .card{border:1px solid var(--border);background:oklch(0.17 0.012 270 / 70%);border-radius:1.1rem;padding:1.5rem;backdrop-filter:blur(8px)}
+  h1{font-size:clamp(1.5rem,4vw,2rem);font-weight:600;letter-spacing:-.03em;line-height:1.15}
+  .sub{color:var(--muted);font-size:.92rem;margin-top:.4rem}
+  .eyebrow{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--electric);margin-bottom:.6rem}
+
+  label.fl{display:block;font-size:.78rem;color:var(--muted);margin:.9rem 0 .35rem}
+  input.tf{width:100%;height:2.9rem;border-radius:.7rem;border:1px solid var(--border);background:oklch(0.13 0.01 270 / 70%);color:var(--fg);font-size:1rem;font-family:inherit;padding:0 .9rem;outline:none;transition:border-color .15s}
+  input.tf:focus{border-color:var(--electric)}
+  input.tf::placeholder{color:var(--muted)}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;height:2.9rem;padding:0 1.4rem;border-radius:999px;border:none;font:inherit;font-weight:500;font-size:.95rem;cursor:pointer;transition:opacity .15s,border-color .15s,background .15s}
+  .btn.primary{background:var(--electric);color:oklch(0.13 0.01 270);box-shadow:0 0 36px -10px var(--electric)}
+  .btn.primary:hover{opacity:.9}
+  .btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--border)}
+  .btn.ghost:hover{border-color:var(--electric)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .row{display:flex;gap:.6rem;align-items:center;margin-top:1.4rem}
+  .row .grow{flex:1}
+  .tiny{font-size:.74rem;color:var(--muted)}
+  .hide{display:none!important}
+  .center{text-align:center}
+  .err{color:var(--amber);font-size:.82rem;margin-top:.8rem;min-height:1rem}
+
+  .ac{position:relative}
+  .ac-menu{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:30;background:oklch(0.15 0.012 270);border:1px solid var(--border);border-radius:.7rem;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.55)}
+  .ac-item{padding:.65rem .85rem;cursor:pointer;border-bottom:1px solid var(--border)}
+  .ac-item:last-child{border-bottom:none}
+  .ac-item:hover{background:oklch(1 0 0 / 6%)}
+  .ac-item .p{font-weight:600;font-size:.95rem}
+  .ac-item .s{color:var(--muted);font-size:.8rem}
+  .gtag{display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--muted);margin-top:.6rem}
+  .gtag b{color:var(--green);font-weight:600}
+  .prefill{margin-top:1rem;border:1px solid var(--border);border-radius:.8rem;padding:.9rem 1rem;background:oklch(0.13 0.01 270/.5)}
+  .prefill .kv{display:flex;justify-content:space-between;gap:1rem;padding:.28rem 0;font-size:.88rem}
+  .prefill .kv .k{color:var(--muted)}
+  .prefill .kv .v{text-align:right}
+
+  .ggroup{margin-top:1.1rem}
+  .ggroup h3{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:600;margin-bottom:.5rem}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+  .conn{position:relative;text-align:left;border:1px solid var(--border);background:oklch(0.13 0.01 270/.55);border-radius:.85rem;padding:.8rem .85rem;cursor:pointer;transition:border-color .15s,transform .05s;display:flex;align-items:center;gap:.65rem;color:inherit;font:inherit}
+  .conn:hover{border-color:var(--electric)}
+  .conn:active{transform:translateY(1px)}
+  .conn .logo{width:2rem;height:2rem;border-radius:.5rem;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:#fff}
+  .conn .nm{font-weight:600;font-size:.9rem}
+  .conn .badge{position:absolute;top:.5rem;right:.55rem;font-size:.58rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--green);border:1px solid color-mix(in oklab,var(--green) 40%,transparent);border-radius:999px;padding:.05rem .4rem}
+  .conn.live-now{border-color:color-mix(in oklab,var(--green) 35%,transparent)}
+  .conn.selected{border-color:var(--electric);box-shadow:0 0 0 1px var(--electric) inset}
+  .conn-foot{font-size:.78rem;color:var(--muted);margin-top:1rem;display:flex;gap:.5rem;align-items:flex-start}
+
+  .plans{display:grid;grid-template-columns:1fr;gap:.7rem;margin-top:.4rem}
+  .plan{border:1px solid var(--border);border-radius:.85rem;padding:1rem 1.1rem;cursor:pointer;display:flex;align-items:center;gap:.8rem;transition:border-color .15s}
+  .plan:hover{border-color:var(--electric)}
+  .plan.selected{border-color:var(--electric);box-shadow:0 0 0 1px var(--electric) inset}
+  .plan .price{font-size:1.25rem;font-weight:700;margin-left:auto}
+  .plan .price small{font-size:.72rem;font-weight:400;color:var(--muted)}
+  .plan .nm{font-weight:600}
+  .plan .ds{font-size:.78rem;color:var(--muted)}
+  .note{border:1px solid var(--border);border-radius:.8rem;padding:.85rem 1rem;font-size:.88rem;color:var(--muted);margin-top:1rem;background:oklch(0.13 0.01 270/.4)}
+  .note b{color:var(--fg);font-weight:600}
+
+  .result-ico{width:3.5rem;height:3.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 1rem}
+  .ok-ico{background:color-mix(in oklab,var(--green) 18%,transparent);border:1px solid color-mix(in oklab,var(--green) 45%,transparent)}
+  .rev-ico{background:color-mix(in oklab,var(--amber) 16%,transparent);border:1px solid color-mix(in oklab,var(--amber) 45%,transparent)}
+  .spinner{width:1.1rem;height:1.1rem;border:2px solid rgba(255,255,255,.35);border-top-color:#06101f;border-radius:50%;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div><div class="bg-glow"></div>
+<div class="wrap">
+
+  <a class="brand" href="/"><span class="brand-dot"></span><span>Compatible AI</span><span class="crumb">Free · first 10 businesses</span></a>
+
+  <div class="steps">
+    <div class="pip active" data-pip="1"><div class="bar"></div><div class="lbl">Find</div></div>
+    <div class="pip" data-pip="2"><div class="bar"></div><div class="lbl">Connect</div></div>
+    <div class="pip" data-pip="3"><div class="bar"></div><div class="lbl">Account</div></div>
+    <div class="pip" data-pip="4"><div class="bar"></div><div class="lbl">Live</div></div>
+  </div>
+
+  <!-- STEP 1 — FIND -->
+  <section class="card step" data-step="1">
+    <div class="eyebrow">Step 1 of 3</div>
+    <h1>Find your business</h1>
+    <p class="sub">Start typing — we pull your details from Google so you don't fill out forms.</p>
+
+    <label class="fl" for="biz">Business name</label>
+    <div class="ac">
+      <input id="biz" class="tf" autocomplete="off" placeholder="Start typing your business name…" />
+      <div id="acmenu" class="ac-menu hide"></div>
+    </div>
+    <div class="gtag hide" id="gtag">✓ <b>Pre-filled from Google</b> — edit anything later</div>
+
+    <div id="prefill" class="prefill hide"></div>
+
+    <label class="fl hide" id="catLabel" for="cat">What kind of business?</label>
+    <input id="cat" class="tf hide" placeholder="e.g. plumber, yoga studio, dog groomer" />
+
+    <div class="err" id="err1"></div>
+    <div class="row">
+      <span class="tiny grow">No long form. Hours &amp; services come from your listing.</span>
+      <button class="btn primary" id="s1next" disabled>Continue</button>
+    </div>
+  </section>
+
+  <!-- STEP 2 — CONNECT -->
+  <section class="card step hide" data-step="2">
+    <div class="eyebrow">Step 2 of 3</div>
+    <h1>Connect your scheduler</h1>
+    <p class="sub">Pick the tool you use to manage appointments. After you create your account you'll sign in once, and we send bookings straight into it.</p>
+
+    <div id="connGroups"></div>
+
+    <div class="conn-foot">
+      <span>🔒</span>
+      <span>We only ever ask permission to <b style="color:var(--fg)">create appointments</b> — never your customer list, never payments.</span>
+    </div>
+
+    <div class="row">
+      <button class="btn ghost" data-back="1">‹ Back</button>
+      <span class="grow"></span>
+      <button class="btn primary" id="s2next" disabled>Continue</button>
+    </div>
+  </section>
+
+  <!-- STEP 3 — ACCOUNT -->
+  <section class="card step hide" data-step="3">
+    <div class="eyebrow">Step 3 of 3</div>
+    <h1>Create your account</h1>
+    <p class="sub">No password — we'll email you a sign-in link. Your scheduler connection is the real key.</p>
+
+    <label class="fl" for="email">Email</label>
+    <input id="email" class="tf" type="email" placeholder="you@business.com" />
+
+    <label class="fl">Choose your plan</label>
+    <div class="plans" id="plans">
+      <div class="plan selected" data-plan="starter"><div><div class="nm">Starter</div><div class="ds">Bookable in Claude · weekly attribution report</div></div><div class="price">$99<small>/mo</small></div></div>
+      <div class="plan" data-plan="pro"><div><div class="nm">Pro</div><div class="ds">Priority placement · multi-location · faster support</div></div><div class="price">$249<small>/mo</small></div></div>
+    </div>
+    <div class="note"><b>14-day free trial — no card required today.</b> While we're in early access, your first 10-business cohort is free; we'll only ask for a card when paid billing turns on, and never without notice.</div>
+
+    <div class="err" id="err3"></div>
+    <div class="row">
+      <button class="btn ghost" data-back="2">‹ Back</button>
+      <span class="grow"></span>
+      <button class="btn primary" id="finish">Create my account →</button>
+    </div>
+  </section>
+
+  <!-- STEP 4a — LIVE / connecting -->
+  <section class="card step hide center" data-step="4live">
+    <div class="result-ico ok-ico">🎉</div>
+    <h1 id="liveTitle">You're almost live.</h1>
+    <p class="sub" id="liveSub"></p>
+    <div class="note" id="liveRouting"></div>
+  </section>
+
+  <!-- STEP 4b — UNDER REVIEW -->
+  <section class="card step hide center" data-step="4review">
+    <div class="result-ico rev-ico">⏳</div>
+    <h1>You're almost there.</h1>
+    <p class="sub" id="reviewSub">We'll set you up in <b>request mode</b> and do a quick check before you go live (usually within a day).</p>
+    <div class="note">📲 <b>How bookings work for you:</b> when someone books in Claude, we'll email you to confirm the time — one tap and it's done. No new software to learn.</div>
+    <p class="tiny" style="margin-top:1.2rem">We sent a sign-in link to <span id="reviewEmail"></span> — use it to manage your listing anytime.</p>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var $ = function(s){return document.querySelector(s)};
+  var $$ = function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+  var FN = "/.netlify/functions/";
+  var session = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+    : ("s-" + Date.now() + "-" + Math.random().toString(16).slice(2));
+
+  var state = { place_id:null, name:"", address:"", phone:"", website:"",
+                category:"", scheduling_software:null, isJobber:false };
+
+  // Broad connector menu — only Jobber is live OAuth today; the rest route to
+  // request-mode on the backend until their adapter ships.
+  var GROUPS = [
+    { label:"Home & field services", items:[
+      { nm:"Jobber", sw:"Jobber", color:"#1a936f", live:true },
+      { nm:"Housecall Pro", sw:"Housecall Pro", color:"#2f6fed" },
+      { nm:"ServiceTitan", sw:"ServiceTitan", color:"#e2382d" },
+      { nm:"ServiceM8", sw:"ServiceM8", color:"#0aa15a" },
+    ]},
+    { label:"Beauty, wellness & fitness", items:[
+      { nm:"Square Appointments", sw:"Square Appointments", color:"#111111" },
+      { nm:"Vagaro", sw:"Vagaro", color:"#5b3fa0" },
+      { nm:"Booksy", sw:"Booksy", color:"#1c1c1c" },
+      { nm:"Mindbody", sw:"Mindbody", color:"#33aa66" },
+      { nm:"Boulevard", sw:"Boulevard", color:"#222222" },
+    ]},
+    { label:"Professional & everything else", items:[
+      { nm:"Calendly", sw:"Calendly", color:"#006bff" },
+      { nm:"Acuity Scheduling", sw:"Acuity", color:"#7b5cff" },
+      { nm:"Cal.com", sw:"Cal.com", color:"#0b1320" },
+      { nm:"Microsoft Bookings", sw:"Microsoft Bookings", color:"#2b88d8" },
+      { nm:"Google Calendar", sw:"Google Calendar", color:"#4285f4" },
+    ]},
+  ];
+  var NONE = { nm:"My tool isn't listed", sw:"none", color:"#444", none:true };
+
+  // ---- stepper ----
+  function gotoStep(s){
+    $$(".step").forEach(function(el){ el.classList.add("hide"); });
+    var el = document.querySelector('.step[data-step="'+s+'"]'); if(el) el.classList.remove("hide");
+    var idx = parseInt((""+s).charAt(0),10);
+    $$(".pip").forEach(function(p){
+      var n = parseInt(p.dataset.pip,10);
+      p.classList.toggle("active", n===idx);
+      p.classList.toggle("done", n<idx);
+    });
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+  $$("[data-back]").forEach(function(b){ b.addEventListener("click",function(){ gotoStep(b.dataset.back); }); });
+
+  // ---- step 1: real Places autocomplete ----
+  var biz=$("#biz"), menu=$("#acmenu"), timer=null;
+  function humanize(t){ return (t||"").replace(/_/g," ").replace(/\b\w/g, function(c){return c.toUpperCase();}); }
+  biz.addEventListener("input", function(){
+    var q=biz.value.trim();
+    state.place_id=null;
+    // Let people continue by typing their name even if they don't pick a Google
+    // match (business not listed, or Places unavailable) — the backend handles a
+    // missing place_id by routing to review.
+    if(q.length>=2){
+      state.name=q;
+      $("#catLabel").classList.remove("hide");
+      $("#cat").classList.remove("hide");
+      $("#s1next").disabled=false;
+    } else {
+      $("#s1next").disabled=true;
+    }
+    if(timer) clearTimeout(timer);
+    if(q.length<3){ menu.classList.add("hide"); return; }
+    timer=setTimeout(function(){ runAutocomplete(q); }, 250);
+  });
+  function runAutocomplete(q){
+    fetch(FN+"places?q="+encodeURIComponent(q)+"&session="+encodeURIComponent(session))
+      .then(function(r){return r.json();})
+      .then(function(d){
+        var preds = (d && d.predictions) || [];
+        if(!preds.length){ menu.classList.add("hide"); return; }
+        menu.innerHTML="";
+        preds.slice(0,5).forEach(function(p){
+          var el=document.createElement("div"); el.className="ac-item";
+          el.innerHTML='<div class="p">'+esc(p.primary)+'</div><div class="s">'+esc(p.secondary||"")+'</div>';
+          el.addEventListener("mousedown", function(ev){ ev.preventDefault(); pick(p); });
+          menu.appendChild(el);
+        });
+        menu.classList.remove("hide");
+      })
+      .catch(function(){ menu.classList.add("hide"); });
+  }
+  biz.addEventListener("blur", function(){ setTimeout(function(){menu.classList.add("hide");},150); });
+
+  function pick(p){
+    biz.value=p.primary; menu.classList.add("hide");
+    fetch(FN+"places?place_id="+encodeURIComponent(p.place_id)+"&session="+encodeURIComponent(session))
+      .then(function(r){return r.json();})
+      .then(function(d){
+        var r=(d && d.result)||{};
+        state.place_id=p.place_id; state.name=r.name||p.primary;
+        state.address=r.formatted_address||p.secondary||""; state.phone=r.phone||"";
+        state.website=r.website||""; state.category=humanize(r.primary_type)||"";
+        $("#gtag").classList.remove("hide");
+        var pf=$("#prefill"); pf.classList.remove("hide");
+        pf.innerHTML =
+          (state.address?'<div class="kv"><span class="k">Address</span><span class="v">'+esc(state.address)+'</span></div>':'')+
+          (state.phone?'<div class="kv"><span class="k">Phone</span><span class="v">'+esc(state.phone)+'</span></div>':'')+
+          (state.website?'<div class="kv"><span class="k">Website</span><span class="v">'+esc(state.website)+'</span></div>':'')+
+          (r.rating?'<div class="kv"><span class="k">Google rating</span><span class="v">★ '+esc(r.rating)+'</span></div>':'');
+        $("#catLabel").classList.remove("hide"); $("#cat").classList.remove("hide");
+        $("#cat").value = state.category;
+        $("#s1next").disabled=false;
+      })
+      .catch(function(){
+        // even without details, allow continue using the prediction text
+        state.place_id=p.place_id; state.name=p.primary; state.address=p.secondary||"";
+        $("#catLabel").classList.remove("hide"); $("#cat").classList.remove("hide");
+        $("#s1next").disabled=false;
+      });
+  }
+  $("#s1next").addEventListener("click", function(){
+    state.category = $("#cat").value.trim();
+    buildConnectors(); gotoStep(2);
+  });
+
+  // ---- step 2: connector grid ----
+  function buildConnectors(){
+    var host=$("#connGroups"); host.innerHTML="";
+    GROUPS.forEach(function(g){
+      var sec=document.createElement("div"); sec.className="ggroup";
+      sec.innerHTML='<h3>'+esc(g.label)+'</h3>';
+      var grid=document.createElement("div"); grid.className="grid";
+      g.items.forEach(function(c){ grid.appendChild(connBtn(c)); });
+      sec.appendChild(grid); host.appendChild(sec);
+    });
+    var sec2=document.createElement("div"); sec2.className="ggroup";
+    var grid2=document.createElement("div"); grid2.className="grid";
+    grid2.appendChild(connBtn(NONE)); sec2.appendChild(grid2); host.appendChild(sec2);
+  }
+  function connBtn(c){
+    var b=document.createElement("button"); b.className="conn"+(c.live?" live-now":"");
+    b.innerHTML='<span class="logo" style="background:'+c.color+'">'+(c.none?'＋':esc(c.nm.charAt(0)))+'</span>'+
+      '<span class="nm">'+esc(c.nm)+'</span>'+(c.live?'<span class="badge">Live now</span>':'');
+    b.addEventListener("click", function(){
+      $$(".conn").forEach(function(x){ x.classList.remove("selected"); });
+      b.classList.add("selected");
+      state.scheduling_software=c.sw; state.isJobber=(c.sw==="Jobber");
+      $("#s2next").disabled=false;
+    });
+    return b;
+  }
+  $("#s2next").addEventListener("click", function(){ gotoStep(3); });
+
+  // ---- step 3: plan + create account ----
+  $$("#plans .plan").forEach(function(p){ p.addEventListener("click", function(){
+    $$("#plans .plan").forEach(function(x){x.classList.remove("selected");}); p.classList.add("selected");
+  }); });
+
+  var finishBtn=$("#finish");
+  finishBtn.addEventListener("click", function(){
+    var email=$("#email").value.trim();
+    var err=$("#err3"); err.textContent="";
+    if(!email || email.indexOf("@")<0){ err.textContent="Please enter a valid email."; return; }
+    setBusy(true);
+    var payload = {
+      business_name: state.name, email: email, vertical: state.category,
+      scheduling_software: state.scheduling_software || "none",
+      google_place_id: state.place_id, service_area: state.address, phone: state.phone,
+    };
+    fetch(FN+"onboarding-start", {
+      method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify(payload),
+    })
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d && d.status==="created"){
+        // grant the mock free trial, then connect or send to review
+        return fetch(FN+"billing-confirm", {
+          method:"POST", headers:{"content-type":"application/json"},
+          body:JSON.stringify({tenant_id:d.tenant_id}),
+        }).catch(function(){}).then(function(){ afterCreate(d, email); });
+      }
+      // unmapped / no place_id -> concierge review
+      reviewScreen(email);
+    })
+    .catch(function(){ setBusy(false); $("#err3").textContent="Something went wrong — please try again."; });
+  });
+
+  function afterCreate(d, email){
+    if(d.connect_url){
+      // Jobber: hand off to the real OAuth connect on the backend.
+      $("#liveTitle").textContent="Connecting "+(state.scheduling_software||"your scheduler")+"…";
+      $("#liveSub").textContent="Redirecting you to sign in and authorize. One tap and you're live in Claude.";
+      $("#liveRouting").innerHTML="";
+      gotoStep("4live");
+      window.location.href=d.connect_url;
+      return;
+    }
+    // Non-OAuth scheduler -> request mode / review.
+    reviewScreen(email);
+  }
+  function reviewScreen(email){
+    setBusy(false);
+    $("#reviewEmail").textContent=email;
+    gotoStep("4review");
+  }
+  function setBusy(b){
+    finishBtn.disabled=b;
+    finishBtn.innerHTML = b ? '<span class="spinner"></span> Creating…' : 'Create my account →';
+  }
+
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+
+  gotoStep(1);
+})();
+</script>
+</body>
+</html>
